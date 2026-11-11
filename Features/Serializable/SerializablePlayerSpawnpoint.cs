@@ -49,7 +49,7 @@ public class SerializablePlayerSpawnpoint : SerializableObject, IIndicatorDefini
 
 			cylinder = GameObject.Instantiate(PrefabManager.PrimitiveObject, root.transform);
 			cylinder.transform.localPosition = Vector3.zero;
-			cylinder.NetworkPrimitiveType = PrimitiveType.Cylinder;
+			cylinder.NetworkPrimitiveType = PrimitiveToyType.Cylinder;
 			cylinder.NetworkPrimitiveFlags = PrimitiveFlags.Visible;
 			cylinder.transform.localScale = new Vector3(1f, 0.001f, 1f);
 
@@ -65,14 +65,14 @@ public class SerializablePlayerSpawnpoint : SerializableObject, IIndicatorDefini
 
 			arrow = GameObject.Instantiate(PrefabManager.PrimitiveObject, arrowX.transform);
 			arrow.transform.localPosition = root.transform.forward;
-			arrow.NetworkPrimitiveType = PrimitiveType.Cube;
+			arrow.NetworkPrimitiveType = PrimitiveToyType.Cube;
 			arrow.NetworkPrimitiveFlags = PrimitiveFlags.Visible;
 			arrow.transform.localScale = new Vector3(0.1f, 0.1f, 1f);
 		}
 		else
 		{
 			root = instance.GetComponent<PrimitiveObjectToy>();
-			
+
 			arrowY = root.transform.Find("Arrow Y Axis").GetComponent<PrimitiveObjectToy>();
 			arrowX = arrowY.transform.Find("Arrow X Axis").GetComponent<PrimitiveObjectToy>();
 		}

@@ -1,5 +1,6 @@
 namespace ProjectMER.Features.Enums;
 
+
 public enum LockerType
 {
 	None = -1,
@@ -16,8 +17,9 @@ public enum LockerType
 	PedestalScp268 = 9,
 	PedestalScp1853 = 10,
 	PedestalScp2176 = 11,
-	PedestalScpScp1576 = 12,
+	PedestalScp1576 = 12,
 	PedestalAntiScp207 = 13,
 	PedestalScp1344 = 14,
 	ExperimentalWeapon = 15,
+	PedestalScp1509 = 16,
 }

@@ -34,7 +34,7 @@ public class SerializableText : SerializableObject, IIndicatorDefinition
 
 		return text.gameObject;
 	}
-	
+
 	public GameObject SpawnOrUpdateIndicator(Room room, GameObject? instance = null)
 	{
 		PrimitiveObjectToy cube;
@@ -45,7 +45,7 @@ public class SerializableText : SerializableObject, IIndicatorDefinition
 		if (instance == null)
 		{
 			cube = UnityEngine.Object.Instantiate(PrefabManager.PrimitiveObject);
-			cube.NetworkPrimitiveType = PrimitiveType.Cube;
+			cube.NetworkPrimitiveType = PrimitiveToyType.Cube;
 			cube.NetworkPrimitiveFlags = PrimitiveFlags.Visible;
 			cube.NetworkMaterialColor = new Color(1f, 1f, 1f, 0.9f);
 			cube.transform.localScale = Vector3.one * 0.25f;

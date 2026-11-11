@@ -1,14 +1,17 @@
 using InventorySystem.Items.Pickups;
+using LabApi.Features.Enums;
+using LabApi.Features.Wrappers;
 using MapGeneration.Distributors;
 using MEC;
 using Mirror;
 using ProjectMER.Features.Enums;
 using ProjectMER.Features.Extensions;
 using UnityEngine;
-
+using ExperimentalWeaponLocker = LabApi.Features.Wrappers.ExperimentalWeaponLocker;
 using Room = LabApi.Features.Wrappers.Room;
 using LabApiLocker = LabApi.Features.Wrappers.Locker;
 using LapApiLockerChamber = LabApi.Features.Wrappers.LockerChamber;
+using Locker = MapGeneration.Distributors.Locker;
 
 namespace ProjectMER.Features.Serializable.Lockers;
 
@@ -20,35 +23,73 @@ public class SerializableLocker : SerializableObject
 
 	public List<SerializableLockerChamber> Chambers { get; set; } = [];
 
+	private static LabApiLocker CreateLocker(LockerType type, Vector3 position, Quaternion rotation)
+	{
+		return type switch
+		{
+			LockerType.Misc => LabApiLocker.Create(LockerStructureType.Standard,
+				position, rotation, networkSpawn: false)!,
+			LockerType.Medkit => LabApiLocker.Create(LockerStructureType.PainkillerCabinet,
+				position, rotation, networkSpawn: false)!,
+			LockerType.Adrenaline => LabApiLocker.Create(LockerStructureType.AdrenalineCabinet,
+				position, rotation, networkSpawn: false)!,
+			LockerType.RifleRack => LabApiLocker.Create(LockerStructureType.RifleRack,
+				position, rotation, networkSpawn: false)!,
+			LockerType.LargeGun => LabApiLocker.Create(LockerStructureType.Large,
+				position, rotation, networkSpawn: false)!,
+			LockerType.PedestalAntiScp207 => PedestalLocker.Create(PedestalLockerType.AntiScp207,
+				position, rotation, networkSpawn: false)!,
+			LockerType.PedestalScp018 => PedestalLocker.Create(PedestalLockerType.Scp018,
+				position, rotation, networkSpawn: false)!,
+			LockerType.PedestalScp207 => PedestalLocker.Create(PedestalLockerType.Scp207,
+				position, rotation, networkSpawn: false)!,
+			LockerType.PedestalScp244 => PedestalLocker.Create(PedestalLockerType.Scp244,
+				position, rotation, networkSpawn: false)!,
+			LockerType.PedestalScp268 => PedestalLocker.Create(PedestalLockerType.Scp268,
+				position, rotation, networkSpawn: false)!,
+			LockerType.PedestalScp500 => PedestalLocker.Create(PedestalLockerType.Scp500,
+				position, rotation, networkSpawn: false)!,
+			LockerType.PedestalScp1344 => PedestalLocker.Create(PedestalLockerType.Scp1344,
+				position, rotation, networkSpawn: false)!,
+			LockerType.PedestalScp1509 => PedestalLocker.Create(PedestalLockerType.Scp1509,
+				position, rotation, networkSpawn: false)!,
+			LockerType.PedestalScp1853 => PedestalLocker.Create(PedestalLockerType.Scp1853,
+				position, rotation, networkSpawn: false)!,
+			LockerType.PedestalScp2176 => PedestalLocker.Create(PedestalLockerType.Scp2176,
+				position, rotation, networkSpawn: false)!,
+			LockerType.PedestalScp1576 => PedestalLocker.Create(PedestalLockerType.Scp1576,
+				position, rotation, networkSpawn: false)!,
+			LockerType.ExperimentalWeapon => ExperimentalWeaponLocker.Create(
+				position, rotation, networkSpawn: false)!,
+			_ => throw new ArgumentOutOfRangeException()
+		};
+	}
+
 	public override GameObject? SpawnOrUpdateObject(Room? room = null, GameObject? instance = null)
 	{
-		Locker locker = instance == null ? UnityEngine.Object.Instantiate(LockerPrefab) : instance.GetComponent<Locker>();
-		Vector3 position = room.GetAbsolutePosition(Position);
-		Quaternion rotation = room.GetAbsoluteRotation(Rotation);
+		if (instance == null || !LabApiLocker.TryGet(instance.GetComponent<Locker>(), out var locker))
+			locker = CreateLocker(LockerType,
+				room.GetAbsolutePosition(Position),
+				room.GetAbsoluteRotation(Rotation));
+		else
+		{
+			locker.Position = room.GetAbsolutePosition(Position);
+			locker.Rotation = room.GetAbsoluteRotation(Rotation);
+		}
 		_prevIndex = Index;
 
-		locker.transform.SetPositionAndRotation(position, rotation);
-		locker.transform.localScale = Scale;
-
-		if (locker.TryGetComponent(out StructurePositionSync structurePositionSync))
-		{
-			structurePositionSync.Network_position = locker.transform.position;
-			structurePositionSync.Network_rotationY = (sbyte)Mathf.RoundToInt(locker.transform.rotation.eulerAngles.y / 5.625f);
-		}
-
-		LabApiLocker labApiLocker = LabApiLocker.Get(locker);
 		if (LockerType != _prevType)
-			SetDefaultSettings(labApiLocker);
+			SetDefaultSettings(locker);
 
-		labApiLocker.ClearLockerLoot();
+		locker.ClearLockerLoot();
 		foreach (SerializableLockerLoot loot in Loot)
 		{
-			labApiLocker.AddLockerLoot(loot.TargetItem, loot.RemainingUses, loot.ProbabilityPoints, loot.MinPerChamber, loot.MaxPerChamber);
+			locker.AddLockerLoot(loot.TargetItem, loot.RemainingUses, loot.ProbabilityPoints, loot.MinPerChamber, loot.MaxPerChamber);
 		}
 
 		int i = 0;
-		labApiLocker.ClearAllChambers();
-		foreach (LapApiLockerChamber chamber in labApiLocker.Chambers)
+		locker.ClearAllChambers();
+		foreach (LapApiLockerChamber chamber in locker.Chambers)
 		{
 			if (i > Chambers.Count - 1)
 				break;
@@ -59,26 +100,26 @@ public class SerializableLocker : SerializableObject
 		}
 
 		_prevType = LockerType;
-		NetworkServer.UnSpawn(locker.gameObject);
-		NetworkServer.Spawn(locker.gameObject);
+		if (!locker.IsNetworkSpawned)
+			locker.Spawn();
 
 		Timing.CallDelayed(0.25f, () =>
 		{
-			foreach (ItemPickupBase itemPickupBase in locker.GetComponentsInChildren<ItemPickupBase>())
+			foreach (ItemPickupBase itemPickupBase in locker.Base.GetComponentsInChildren<ItemPickupBase>())
 			{
 				if (itemPickupBase.TryGetComponent(out Rigidbody rigidbody))
 					rigidbody.isKinematic = false;
 			}
 
 			int i = 0;
-			foreach (LapApiLockerChamber chamber in labApiLocker.Chambers)
+			foreach (LapApiLockerChamber chamber in locker.Chambers)
 			{
 				chamber.IsOpen = Chambers[i].IsOpen;
 				i++;
 			}
 		});
 
-		return locker.gameObject;
+		return locker.Base.gameObject;
 	}
 
 	private void SetDefaultSettings(LabApiLocker labApiLocker)
@@ -115,7 +156,7 @@ public class SerializableLocker : SerializableObject
 				LockerType.PedestalScp268 => PrefabManager.PedestalScp268,
 				LockerType.PedestalScp1853 => PrefabManager.PedstalScp1853,
 				LockerType.PedestalScp2176 => PrefabManager.PedestalScp2176,
-				LockerType.PedestalScpScp1576 => PrefabManager.PedestalScp1576,
+				LockerType.PedestalScp1576 => PrefabManager.PedestalScp1576,
 				LockerType.PedestalAntiScp207 => PrefabManager.PedestalAntiScp207,
 				LockerType.PedestalScp1344 => PrefabManager.PedestalScp1344,
 				LockerType.ExperimentalWeapon => PrefabManager.LockerExperimentalWeapon,

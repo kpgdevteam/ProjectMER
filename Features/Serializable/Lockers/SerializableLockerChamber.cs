@@ -1,4 +1,5 @@
 using Interactables.Interobjects.DoorUtils;
+using InventorySystem.Items;
 
 namespace ProjectMER.Features.Serializable.Lockers;
 

@@ -8,7 +8,7 @@ namespace ProjectMER.Features.Extensions;
 
 public static class RoomExtensions
 {
-	public static Room GetRoomAtPosition(Vector3 position) => Room.TryGetRoomAtPosition(position, out Room? room) ? room : Room.List.First(x => x.Base != null && x.Name == RoomName.Outside);
+	public static Room GetRoomAtPosition(Vector3 position) => Room.TryGetRoomAtPosition(position, out Room? room) ? room : Room.List.First(x => x.Base != null && x.Name == RoomName.SzExterior);
 
 	public static string GetRoomStringId(this Room room) => $"{room.Zone}_{room.Shape}_{room.Name}";
 
@@ -16,7 +16,7 @@ public static class RoomExtensions
 	{
 		string[] split = serializableObject.Room.Split('_');
 		if (split.Length != 3)
-			return ListPool<Room>.Shared.Rent(Room.List.Where(x => x.Base != null && x.Name == RoomName.Outside));
+			return ListPool<Room>.Shared.Rent(Room.List.Where(x => x.Base != null && x.Name == RoomName.SzExterior));
 
 		FacilityZone facilityZone = (FacilityZone)Enum.Parse(typeof(FacilityZone), split[0], true);
 		RoomShape roomShape = (RoomShape)Enum.Parse(typeof(RoomShape), split[1], true);
@@ -35,7 +35,7 @@ public static class RoomExtensions
 
 	public static Vector3 GetAbsolutePosition(this Room? room, Vector3 position)
 	{
-		if (room is null || room.Name == RoomName.Outside)
+		if (room is null || room.Name == RoomName.SzExterior)
 			return position;
 
 		return room.Transform.TransformPoint(position);
@@ -43,7 +43,7 @@ public static class RoomExtensions
 
 	public static Quaternion GetAbsoluteRotation(this Room? room, Vector3 eulerAngles)
 	{
-		if (room is null || room.Name == RoomName.Outside)
+		if (room is null || room.Name == RoomName.SzExterior)
 			return Quaternion.Euler(eulerAngles);
 
 		return room.Transform.rotation * Quaternion.Euler(eulerAngles);

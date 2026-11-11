@@ -16,25 +16,25 @@ public class SerializableWorkstation : SerializableObject
 
 	public override GameObject SpawnOrUpdateObject(Room? room = null, GameObject? instance = null)
 	{
-		WorkstationController workstation = instance == null ? UnityEngine.Object.Instantiate(PrefabManager.Workstation) : instance.GetComponent<WorkstationController>();
-		Vector3 position = room.GetAbsolutePosition(Position);
-		Quaternion rotation = room.GetAbsoluteRotation(Rotation);
+		if (instance == null || !LabApi.Features.Wrappers.Workstation.TryGet(instance.GetComponent<SpawnableStructure>(), out var workstation))
+			workstation = LabApi.Features.Wrappers.Workstation.Create(
+				room.GetAbsolutePosition(Position),
+				room.GetAbsoluteRotation(Rotation),
+				Scale,
+				networkSpawn: false)!;
+		else
+		{
+			workstation.Position = room.GetAbsolutePosition(Position);
+			workstation.Rotation = room.GetAbsoluteRotation(Rotation);
+		}
 		_prevIndex = Index;
 
-		workstation.transform.SetPositionAndRotation(position, rotation);
-		workstation.transform.localScale = Scale;
+		workstation.Status = IsInteractable
+			? WorkstationController.WorkstationStatus.Offline
+			: (WorkstationController.WorkstationStatus)4;
 
-		workstation.NetworkStatus = (byte)(IsInteractable ? 0 : 4);
+		workstation.Spawn();
 
-		if (workstation.TryGetComponent(out StructurePositionSync structurePositionSync))
-		{
-			structurePositionSync.Network_position = workstation.transform.position;
-			structurePositionSync.Network_rotationY = (sbyte)Mathf.RoundToInt(workstation.transform.rotation.eulerAngles.y / 5.625f);
-		}
-
-		NetworkServer.UnSpawn(workstation.gameObject);
-		NetworkServer.Spawn(workstation.gameObject);
-
-		return workstation.gameObject;
+		return workstation.Base.gameObject;
 	}
 }

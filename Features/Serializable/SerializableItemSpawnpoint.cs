@@ -1,3 +1,5 @@
+using AdminToys;
+using InventorySystem.Items;
 using InventorySystem.Items.Firearms.Attachments;
 using InventorySystem.Items.Firearms.Modules;
 using InventorySystem.Items.Pickups;
@@ -77,7 +79,7 @@ public class SerializableItemSpawnpoint : SerializableObject, IIndicatorDefiniti
 		if (instance == null)
 		{
 			cube = UnityEngine.Object.Instantiate(PrefabManager.PrimitiveObject);
-			cube.NetworkPrimitiveType = PrimitiveType.Cube;
+			cube.NetworkPrimitiveType = PrimitiveToyType.Cube;
 			cube.NetworkPrimitiveFlags = AdminToys.PrimitiveFlags.Visible;
 			cube.NetworkMaterialColor = new Color(0f, 1f, 0f, 0.9f);
 			cube.transform.localScale = Vector3.one * 0.25f;

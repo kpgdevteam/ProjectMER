@@ -11,9 +11,9 @@ namespace ProjectMER.Features.Serializable;
 public class SerializablePrimitive : SerializableObject
 {
 	/// <summary>
-	/// Gets or sets the <see cref="UnityEngine.PrimitiveType"/>.
+	/// Gets or sets the <see cref="UnityEngine.PrimitiveToyType"/>.
 	/// </summary>
-	public PrimitiveType PrimitiveType { get; set; } = PrimitiveType.Cube;
+	public PrimitiveToyType PrimitiveToyType { get; set; } = PrimitiveToyType.Cube;
 
 	/// <summary>
 	/// Gets or sets the <see cref="SerializablePrimitive"/>'s color.
@@ -37,7 +37,7 @@ public class SerializablePrimitive : SerializableObject
 		primitive.NetworkMovementSmoothing = 60;
 
 		primitive.NetworkMaterialColor = Color.GetColorFromString();
-		primitive.NetworkPrimitiveType = PrimitiveType;
+		primitive.NetworkPrimitiveType = PrimitiveToyType;
 		primitive.NetworkPrimitiveFlags = PrimitiveFlags;
 
 		if (instance == null)

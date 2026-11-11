@@ -56,7 +56,7 @@ public class SerializableTeleport : SerializableObject, IIndicatorDefinition
 			trigger = UnityEngine.Object.Instantiate(PrefabManager.PrimitiveObject);
 			trigger.NetworkPrimitiveFlags = PrimitiveFlags.Visible;
 			trigger.name = "Trigger";
-			trigger.NetworkPrimitiveType = PrimitiveType.Cube;
+			trigger.NetworkPrimitiveType = PrimitiveToyType.Cube;
 			trigger.transform.localScale = Scale;
 			trigger.transform.position = position;
 			trigger.transform.parent = root.transform;
@@ -73,7 +73,7 @@ public class SerializableTeleport : SerializableObject, IIndicatorDefinition
 
 			arrow = GameObject.Instantiate(PrefabManager.PrimitiveObject, arrowX.transform);
 			arrow.transform.localPosition = root.transform.forward;
-			arrow.NetworkPrimitiveType = PrimitiveType.Cube;
+			arrow.NetworkPrimitiveType = PrimitiveToyType.Cube;
 			arrow.NetworkPrimitiveFlags = PrimitiveFlags.Visible;
 			arrow.transform.localScale = new Vector3(0.1f, 0.1f, 1f);
 		}

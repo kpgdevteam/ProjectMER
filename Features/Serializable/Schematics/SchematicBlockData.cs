@@ -1,4 +1,5 @@
 using AdminToys;
+using InventorySystem.Items;
 using InventorySystem.Items.Firearms.Attachments;
 using LabApi.Features.Wrappers;
 using ProjectMER.Events.Handlers.Internal;
@@ -53,7 +54,7 @@ public class SchematicBlockData
 		Transform transform = gameObject.transform;
 		transform.SetParent(parentTransform);
 		transform.SetLocalPositionAndRotation(Position, Quaternion.Euler(Rotation));
-		
+
 		if (BlockType == BlockType.Waypoint)
 			gameObject.GetComponent<WaypointToy>().NetworkBoundsSize = Scale;
 		else
@@ -93,7 +94,7 @@ public class SchematicBlockData
 	{
 		PrimitiveObjectToy primitive = GameObject.Instantiate(PrefabManager.PrimitiveObject);
 
-		primitive.NetworkPrimitiveType = (PrimitiveType)Convert.ToInt32(Properties["PrimitiveType"]);
+		primitive.NetworkPrimitiveType = (PrimitiveToyType)Convert.ToInt32(Properties["PrimitiveToyType"]);
 		primitive.NetworkMaterialColor = Properties["Color"].ToString().GetColorFromString();
 
 		PrimitiveFlags primitiveFlags;

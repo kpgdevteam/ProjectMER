@@ -1,3 +1,5 @@
+using InventorySystem.Items;
+
 namespace ProjectMER.Features.Serializable.Lockers;
 
 public class SerializableLockerLoot

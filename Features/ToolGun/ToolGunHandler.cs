@@ -28,7 +28,7 @@ public static class ToolGunHandler
 	{
 		Room room = RoomExtensions.GetRoomAtPosition(position);
 
-		position = room.Name == RoomName.Outside ? position : room.Transform.InverseTransformPoint(position);
+		position = room.Name == RoomName.SzExterior ? position : room.Transform.InverseTransformPoint(position);
 		string roomId = room.GetRoomStringId();
 
 		MapSchematic map = MapUtils.UntitledMap;

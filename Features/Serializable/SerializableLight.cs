@@ -65,7 +65,7 @@ public class SerializableLight : SerializableObject, IIndicatorDefinition
 		Vector3 position = room.GetAbsolutePosition(Position);
 
 		primitive.transform.position = position;
-		primitive.NetworkPrimitiveType = PrimitiveType.Sphere;
+		primitive.NetworkPrimitiveType = PrimitiveToyType.Sphere;
 		primitive.NetworkPrimitiveFlags = PrimitiveFlags.Visible;
 		primitive.transform.localScale = new Vector3(0.25f, 0.25f, 0.25f);
 

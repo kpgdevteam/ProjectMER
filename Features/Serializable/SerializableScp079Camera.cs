@@ -38,7 +38,7 @@ public class SerializableScp079Camera : SerializableObject
 
 		cameraVariant.NetworkMovementSmoothing = 60;
 		cameraVariant.NetworkLabel = Label;
-		cameraVariant.NetworkRoom = room == null ? LabApi.Features.Wrappers.Room.Get(RoomName.Outside).First().Base : room.Base;
+		cameraVariant.NetworkRoom = room == null ? LabApi.Features.Wrappers.Room.Get(RoomName.SzExterior).First().Base : room.Base;
 
 		if (instance == null)
 			NetworkServer.Spawn(cameraVariant.gameObject);

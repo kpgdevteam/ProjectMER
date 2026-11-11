@@ -48,7 +48,7 @@ public class Grab : ICommand
 			GrabbingPlayers.Remove(player);
 
 			Room room = mapEditorObject.Room;
-			mapEditorObject.Base.Position = room.Name == MapGeneration.RoomName.Outside ? mapEditorObject.transform.position : mapEditorObject.Room.Transform.InverseTransformPoint(mapEditorObject.transform.position);
+			mapEditorObject.Base.Position = room.Name == MapGeneration.RoomName.SzExterior ? mapEditorObject.transform.position : mapEditorObject.Room.Transform.InverseTransformPoint(mapEditorObject.transform.position);
 			mapEditorObject.UpdateObjectAndCopies();
 
 			response = "Ungrabbed";

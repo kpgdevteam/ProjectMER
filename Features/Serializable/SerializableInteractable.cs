@@ -54,7 +54,7 @@ public class SerializableInteractable : SerializableObject, IIndicatorDefinition
 			cube = instance.GetComponent<PrimitiveObjectToy>();
 		}
 
-		cube.NetworkPrimitiveType = PrimitiveType;
+		cube.NetworkPrimitiveType = PrimitiveToyType;
 		cube.transform.localScale = Scale;
 
 		cube.transform.SetPositionAndRotation(position, rotation);
@@ -62,15 +62,15 @@ public class SerializableInteractable : SerializableObject, IIndicatorDefinition
 		return cube.gameObject;
 	}
 
-	private PrimitiveType PrimitiveType
+	private PrimitiveToyType PrimitiveToyType
 	{
 		get
 		{
-			PrimitiveType primitiveType = ColliderShape switch
+			PrimitiveToyType primitiveType = ColliderShape switch
 			{
-				ColliderShape.Box => PrimitiveType.Cube,
-				ColliderShape.Sphere => PrimitiveType.Sphere,
-				ColliderShape.Capsule => PrimitiveType.Capsule,
+				ColliderShape.Box => PrimitiveToyType.Cube,
+				ColliderShape.Sphere => PrimitiveToyType.Sphere,
+				ColliderShape.Capsule => PrimitiveToyType.Capsule,
 				_ => throw new InvalidOperationException(),
 			};
 

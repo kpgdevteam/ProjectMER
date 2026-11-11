@@ -5,28 +5,37 @@ using UnityEngine;
 
 namespace ProjectMER.Patches;
 
+/// <summary>
+/// Fixes the issue that Alpha warhead kills you if you are on top of a primitive.
+/// </summary>
 [HarmonyPatch(typeof(AlphaWarheadController), nameof(AlphaWarheadController.CanBeDetonated))]
-public static class AlphaWarheadCanBeDetonatedFix
+public class AlphaWarheadFix
 {
 	public static bool Prefix(Vector3 pos, bool includeOnlyLifts, ref bool __result)
 	{
 		FacilityZone zone = pos.GetZone();
-		if (zone != FacilityZone.Surface && zone != FacilityZone.None && !includeOnlyLifts)
-		{
-			__result = true;
-			return false;
-		}
+		if (zone == FacilityZone.None && pos.TryGetRoom(out var room))
+			zone = room.Zone;
 
-		foreach (ElevatorChamber chamber in ElevatorChamber.AllChambers)
-		{
-			if (!chamber.WorldspaceBounds.Contains(pos))
-				continue;
+		if (zone == FacilityZone.None)
+			return true;
 
+		if (zone != FacilityZone.Surface && !includeOnlyLifts)
+		{
 			__result = true;
 			return false;
 		}
 
 		__result = false;
+		foreach (ElevatorChamber chamber in ElevatorChamber.AllChambers)
+		{
+			if (chamber.WorldspaceBounds.Contains(pos))
+			{
+				__result = true;
+				break;
+			}
+		}
+
 		return false;
 	}
 }
