@@ -30,6 +30,8 @@ public class MapSchematic
 
 	public Dictionary<string, SerializableWorkstation> Workstations { get; set; } = [];
 
+	public Dictionary<string, SerializableBarbedWire> BarbedWires { get; set; } = [];
+
 	public Dictionary<string, SerializableItemSpawnpoint> ItemSpawnpoints { get; set; } = [];
 
 	public Dictionary<string, SerializablePlayerSpawnpoint> PlayerSpawnpoints { get; set; } = [];
@@ -60,6 +62,7 @@ public class MapSchematic
 		Lights.AddRange(other.Lights);
 		Doors.AddRange(other.Doors);
 		Workstations.AddRange(other.Workstations);
+		BarbedWires.AddRange(other.BarbedWires);
 		ItemSpawnpoints.AddRange(other.ItemSpawnpoints);
 		PlayerSpawnpoints.AddRange(other.PlayerSpawnpoints);
 		Capybaras.AddRange(other.Capybaras);
@@ -96,6 +99,7 @@ public class MapSchematic
 			SpawnObject(kVP.Key, kVP.Value);
 		});
 		Workstations.ForEach(kVP => SpawnObject(kVP.Key, kVP.Value));
+		BarbedWires.ForEach(kVP => SpawnObject(kVP.Key, kVP.Value));
 		ItemSpawnpoints.ForEach(kVP => SpawnObject(kVP.Key, kVP.Value));
 		PlayerSpawnpoints.ForEach(kVP => SpawnObject(kVP.Key, kVP.Value));
 		Capybaras.ForEach(kVP => SpawnObject(kVP.Key, kVP.Value));
@@ -161,6 +165,9 @@ public class MapSchematic
 		if (Workstations.TryAdd(id, serializableObject))
 			return true;
 
+		if (BarbedWires.TryAdd(id, serializableObject))
+			return true;
+
 		if (ItemSpawnpoints.TryAdd(id, serializableObject))
 			return true;
 
@@ -213,6 +220,9 @@ public class MapSchematic
 			return true;
 
 		if (Workstations.Remove(id))
+			return true;
+
+		if (BarbedWires.Remove(id))
 			return true;
 
 		if (ItemSpawnpoints.Remove(id))

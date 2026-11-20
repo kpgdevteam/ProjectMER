@@ -1,4 +1,5 @@
 using AdminToys;
+using Hazards;
 using Interactables.Interobjects.DoorUtils;
 using InventorySystem.Items.Firearms.Attachments;
 using MapGeneration.Distributors;
@@ -16,10 +17,22 @@ public static class PrefabManager
 	public static LightSourceToy LightSource { get; private set; }
 
 	public static DoorVariant DoorLcz { get; private set; }
+	public static DoorVariant DoorLczPortalless { get; private set; }
+	public static DoorVariant DoorClassDCells { get; private set; }
 	public static DoorVariant DoorHcz { get; private set; }
+	public static DoorVariant DoorHczKeycard { get; private set; }
 	public static DoorVariant DoorEz { get; private set; }
+	public static DoorVariant DoorEzPortalless { get; private set; }
+	public static DoorVariant DoorEzKeycard { get; private set; }
 	public static DoorVariant DoorHeavyBulk { get; private set; }
 	public static DoorVariant DoorGate { get; private set; }
+	public static DoorVariant DoorGateKeycard { get; private set; }
+	public static DoorVariant DoorSzExteriorDouble { get; private set; }
+	public static DoorVariant DoorSzExteriorSingle { get; private set; }
+	public static DoorVariant DoorSzInteriorSingle { get; private set; }
+	public static DoorVariant DoorGarageWhite { get; private set; }
+	public static DoorVariant DoorGarageWhiteTall { get; private set; }
+	public static DoorVariant DoorGarageYellow { get; private set; }
 
 	public static WorkstationController Workstation { get; private set; }
 
@@ -82,17 +95,53 @@ public static class PrefabManager
 					case "LCZ BreakableDoor":
 						DoorLcz = doorVariant;
 						continue;
+					case "LCZ PortallessBreakableDoor":
+						DoorLczPortalless = doorVariant;
+						continue;
+					case "Prison BreakableDoor":
+						DoorClassDCells = doorVariant;
+						continue;
 					case "HCZ BreakableDoor":
 						DoorHcz = doorVariant;
 						continue;
+					case "Keycard BreakableDoor":
+						DoorHczKeycard = doorVariant;
+						continue;
 					case "EZ BreakableDoor":
 						DoorEz = doorVariant;
+						continue;
+					case "EZ PortallessBreakableDoor":
+						DoorEzPortalless = doorVariant;
+						continue;
+					case "EZ Keycard BreakableDoor":
+						DoorEzKeycard = doorVariant;
 						continue;
 					case "HCZ BulkDoor":
 						DoorHeavyBulk = doorVariant;
 						continue;
 					case "Spawnable Unsecured Pryable GateDoor":
 						DoorGate = doorVariant;
+						continue;
+					case "Keycard Pryable GateDoor":
+						DoorGateKeycard = doorVariant;
+						continue;
+					case "GarageDoor_White Variant":
+						DoorGarageWhite = doorVariant;
+						continue;
+					case "GarageDoor_White_Tall":
+						DoorGarageWhiteTall = doorVariant;
+						continue;
+					case "GarageDoor_Yellow":
+						DoorGarageYellow = doorVariant;
+						continue;
+					case "SZ Exterior Double Door":
+						DoorSzExteriorDouble = doorVariant;
+						continue;
+					case "SZ Exterior Single door":
+						DoorSzExteriorSingle = doorVariant;
+						continue;
+					case "SZ Interior Single door":
+						DoorSzInteriorSingle = doorVariant;
 						continue;
 				}
 			}
@@ -219,7 +268,7 @@ public static class PrefabManager
 				Waypoint = waypointToy;
 				continue;
 			}
-			
+
 			if (gameObject.TryGetComponent(out SpawnableCullingParent spawnableCullingParent))
 			{
 				CullingParent = spawnableCullingParent;

@@ -4,6 +4,7 @@ using Mirror;
 using ProjectMER.Features.Enums;
 using ProjectMER.Features.Extensions;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace ProjectMER.Features.Serializable;
 
@@ -24,9 +25,9 @@ public class SerializableDoor : SerializableObject
 
 		if (instance == null)
 		{
-			doorVariant = GameObject.Instantiate(DoorPrefab);
+			doorVariant = Object.Instantiate(DoorPrefab);
 			if (doorVariant.TryGetComponent(out DoorRandomInitialStateExtension doorRandomInitialStateExtension))
-				GameObject.Destroy(doorRandomInitialStateExtension);
+				Object.Destroy(doorRandomInitialStateExtension);
 		}
 		else
 		{
@@ -63,7 +64,19 @@ public class SerializableDoor : SerializableObject
 				DoorType.Ez => PrefabManager.DoorEz,
 				DoorType.Bulkdoor => PrefabManager.DoorHeavyBulk,
 				DoorType.Gate => PrefabManager.DoorGate,
-				_ => throw new InvalidOperationException(),
+				DoorType.KeycardGate => PrefabManager.DoorGateKeycard,
+				DoorType.KeycardEz => PrefabManager.DoorEzKeycard,
+				DoorType.KeycardHcz => PrefabManager.DoorHczKeycard,
+				DoorType.EzPortalless => PrefabManager.DoorEzPortalless,
+				DoorType.LczPrison => PrefabManager.DoorClassDCells,
+				DoorType.LczPortalless => PrefabManager.DoorLczPortalless,
+				DoorType.GarageDoorWhite => PrefabManager.DoorGarageWhite,
+				DoorType.GarageDoorWhiteTall => PrefabManager.DoorGarageWhiteTall,
+				DoorType.GarageDoorYellow => PrefabManager.DoorGarageYellow,
+				DoorType.SzExteriorDouble => PrefabManager.DoorSzExteriorDouble,
+				DoorType.SzExteriorSingle => PrefabManager.DoorSzExteriorSingle,
+				DoorType.SzInteriorSingle => PrefabManager.DoorSzInteriorSingle,
+				_ => throw new ArgumentOutOfRangeException()
 			};
 
 			return prefab;

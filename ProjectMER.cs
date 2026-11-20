@@ -2,12 +2,16 @@ global using Logger = LabApi.Features.Console.Logger;
 
 using HarmonyLib;
 using LabApi.Events.CustomHandlers;
+using LabApi.Features.Wrappers;
+using LabApi.Loader;
 using LabApi.Loader.Features.Paths;
 using LabApi.Loader.Features.Plugins;
 using MEC;
 using ProjectMER.Configs;
 using ProjectMER.Events.Handlers.Internal;
 using ProjectMER.Features;
+using ProjectMER.Wrappers;
+using Utils.Networking;
 
 namespace ProjectMER;
 
@@ -43,6 +47,9 @@ public class ProjectMER : Plugin<Config>
 
 	public override void Enable()
 	{
+		NetworkUtils.RegisterHandlers += BarbedWire.Initialize;
+		LabApi.Events.Handlers.ServerEvents.RoundRestarted += BarbedWire.Reset;
+
 		Singleton = this;
 		_harmony = new Harmony($"michal78900.mapEditorReborn-{DateTime.Now.Ticks}");
 		_harmony.PatchAll();

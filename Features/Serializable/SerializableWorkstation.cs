@@ -1,7 +1,9 @@
+using Hazards;
 using InventorySystem.Items.Firearms.Attachments;
 using LabApi.Features.Wrappers;
 using MapGeneration.Distributors;
 using Mirror;
+using ProjectMER.Features.Enums;
 using ProjectMER.Features.Extensions;
 using UnityEngine;
 
@@ -14,10 +16,12 @@ public class SerializableWorkstation : SerializableObject
 	/// </summary>
 	public bool IsInteractable { get; set; } = true;
 
+	public override bool RequiresReloading => true;
+
 	public override GameObject SpawnOrUpdateObject(Room? room = null, GameObject? instance = null)
 	{
-		if (instance == null || !LabApi.Features.Wrappers.Workstation.TryGet(instance.GetComponent<SpawnableStructure>(), out var workstation))
-			workstation = LabApi.Features.Wrappers.Workstation.Create(
+		if (instance == null || !Workstation.TryGet(instance.GetComponent<SpawnableStructure>(), out var workstation))
+			workstation = Workstation.Create(
 				room.GetAbsolutePosition(Position),
 				room.GetAbsoluteRotation(Rotation),
 				Scale,

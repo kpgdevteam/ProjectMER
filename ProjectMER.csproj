@@ -9,20 +9,20 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Reference Include="UnityEngine" HintPath="$(SL_REFERENCES)\UnityEngine.dll" />
-    <Reference Include="UnityEngine.AnimationModule" HintPath="$(SL_REFERENCES)\UnityEngine.AnimationModule.dll" />
-    <Reference Include="UnityEngine.CoreModule" HintPath="$(SL_REFERENCES)\UnityEngine.CoreModule.dll" />
-    <Reference Include="UnityEngine.AssetBundleModule" HintPath="$(SL_REFERENCES)\UnityEngine.AssetBundleModule.dll" />
-    <Reference Include="UnityEngine.PhysicsModule" HintPath="$(SL_REFERENCES)\UnityEngine.PhysicsModule.dll" />
-    <Reference Include="Unity.TextMeshPro" HintPath="$(SL_REFERENCES)\Unity.TextMeshPro.dll" />
-    <Reference Include="Mirror" HintPath="$(SL_REFERENCES)\Mirror.dll" />
-    <Reference Include="Utf8Json" HintPath="$(SL_REFERENCES)\Utf8Json.dll" />
-    <Reference Include="Northwood.SCPSL" HintPath="$(SL_REFERENCES)\Northwood.SCPSL.dll" Publicize="true" />
-    <Reference Include="DigitalDust" HintPath="$(SL_REFERENCES)\DigitalDust.dll" />
-    <Reference Include="CommandSystem.Core" HintPath="$(SL_REFERENCES)\CommandSystem.Core.dll" />
-    <Reference Include="YamlDotNet" HintPath="$(SL_REFERENCES)\YamlDotNet.dll" />
-    <Reference Include="NorthwoodLib" HintPath="$(SL_REFERENCES)\NorthwoodLib.dll" />
-    <Reference Include="LabApi" HintPath="$(SL_REFERENCES)\LabApi.dll" />
+    <Reference Include="UnityEngine" />
+    <Reference Include="UnityEngine.AnimationModule" />
+    <Reference Include="UnityEngine.CoreModule" />
+    <Reference Include="UnityEngine.AssetBundleModule" />
+    <Reference Include="UnityEngine.PhysicsModule" />
+    <Reference Include="Unity.TextMeshPro" />
+    <Reference Include="Mirror" />
+    <Reference Include="Utf8Json" />
+    <Reference Include="Northwood.SCPSL" Publicize="true" />
+    <Reference Include="DigitalDust" />
+    <Reference Include="CommandSystem.Core" />
+    <Reference Include="YamlDotNet" />
+    <Reference Include="NorthwoodLib" />
+    <Reference Include="LabApi" Publicize="true" />
   </ItemGroup>
 
   <ItemGroup>
